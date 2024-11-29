@@ -1,4 +1,3 @@
-
 mkdir ~/validator_run_env/ 
 cd ~/validator_run_env/
 
@@ -13,7 +12,22 @@ solana-keygen new -o vote-account-keypair.json --no-bip39-passphrase
 
 solana config set --keypair /home/sol/validator_run_env/validator-keypair.json
 
-printf "Have you deposited SOL into id wallet?: "
+printf "What is the ID (above)?: "
+read vid
+
+cat >> ~/.profile <<- EOM
+# Helpful Aliases
+alias catchup='solana catchup --our-localhost'
+alias monitor='agave-validator --ledger /mnt/ledger monitor'
+alias logtail='tail -f  /home/sol/validator_run_env/log/solana-validator.log'
+
+alias gossip='solana gossip | grep $vid'
+alias validators='solana validators | grep $vid'
+EOM
+
+
+
+printf "Have you deposited SOL into id wallet ( $vid )?: "
 read input
 
 solana create-vote-account -u$net \
@@ -22,5 +36,3 @@ solana create-vote-account -u$net \
     ./vote-account-keypair.json \
     ./validator-keypair.json \
     ./authorized-withdrawer-keypair.json
-
-
