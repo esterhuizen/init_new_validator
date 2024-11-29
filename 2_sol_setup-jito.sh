@@ -18,6 +18,7 @@ read input
 
 solana create-vote-account -u$net \
     --fee-payer ./validator-keypair.json \
+    --commission 0 \
     ./vote-account-keypair.json \
     ./validator-keypair.json \
     ./authorized-withdrawer-keypair.json
