@@ -1,0 +1,71 @@
+#!/bin/bash
+
+export PATH="/home/sol/.local/share/solana/install/releases/v2.0.15-jito"/bin:"$PATH"
+export SOLANA_METRICS_CONFIG="host=https://metrics.solana.com:8086,db=mainnet-beta,u=mainnet-beta_write,p=password"
+
+# root dir
+APPROOT=/home/sol/validator_run_env
+
+# Define paths to your keypair files
+IDENTITY_KEYPAIR=$APPROOT/validator-keypair.json
+VOTE_ACCOUNT_KEYPAIR=$APPROOT/vote-account-keypair.json
+
+# Define the ledger directory
+LEDGER_DIR=/mnt/ledger
+
+# Define the ledger directory
+ACCOUNTS_DIR=/mnt/accounts
+
+# Define the log file path
+LOG_FILE=$APPROOT/log/solana-validator.log
+
+# Define the dynamic port range for the validator
+PORT_RANGE=8000-8020
+
+# Define the RPC port
+RPC_PORT=8899
+
+# Define the expected genesis hash for the cluster
+EXPECTED_GENESIS_HASH=5eykt4UsFv8P8NJdTREpY1vzqKqZKvdpKuc147dw2N9d
+
+# Jito flags
+BLOCK_ENGINE_URL=https://frankfurt.mainnet.block-engine.jito.wtf
+RELAYER_URL=http://frankfurt.mainnet.relayer.jito.wtf:8100
+SHRED_RECEIVER_ADDR=64.130.50.14:1002
+
+# move old log file for backup
+mv $LOG_FILE   $APPROOT/log/solana-validator.log_$( date +%Y%m%d%H%M%S)
+
+# Execute the solana-validator command
+exec agave-validator \
+          --tip-payment-program-pubkey T1pyyaTNZsKv2WcRAB8oVnk93mLJw2XzjtVYqCsaHqt \
+          --tip-distribution-program-pubkey 4R3gSG8BpU4t19KYj8CfnbtRpnT8gtk4dvTHxVRwc2r7 \
+          --merkle-root-upload-authority GZctHpWXmsZC1YHACTGGcHhYxjdRqQvTpYkb9LMvxDib \
+          --commission-bps 900 \
+          --relayer-url ${RELAYER_URL} \
+          --block-engine-url ${BLOCK_ENGINE_URL} \
+          --shred-receiver-address ${SHRED_RECEIVER_ADDR} \
+  --identity "$IDENTITY_KEYPAIR" \
+  --vote-account "$VOTE_ACCOUNT_KEYPAIR" \
+  --ledger "$LEDGER_DIR" \
+  --accounts "$ACCOUNTS_DIR" \
+  --log "$LOG_FILE" \
+  --entrypoint entrypoint.mainnet-beta.solana.com:8001 \
+  --entrypoint entrypoint2.mainnet-beta.solana.com:8001 \
+  --entrypoint entrypoint3.mainnet-beta.solana.com:8001 \
+  --entrypoint entrypoint4.mainnet-beta.solana.com:8001 \
+  --entrypoint entrypoint5.mainnet-beta.solana.com:8001 \
+  --known-validator 7Np41oeYqPefeNQEHSv1UDhYrehxin3NStELsSKCT4K2 \
+  --known-validator GdnSyH3YtwcxFvQrVVJMm1JhTS4QVX7MFsX56uJLUfiZ \
+  --known-validator DE1bawNcRJB9rVm3buyMVfr8mBEoyyu73NBovf2oXJsJ \
+  --known-validator CakcnaRDHka2gXyfbEd2d3xsvkJkqsLw2akB3zsN1D2S \
+  --expected-genesis-hash "$EXPECTED_GENESIS_HASH" \
+  --dynamic-port-range "$PORT_RANGE" \
+  --rpc-port "$RPC_PORT" \
+  --only-known-rpc \
+  --private-rpc \
+  --wal-recovery-mode skip_any_corrupted_record \
+ --no-skip-initial-accounts-db-clean \
+ --block-verification-method unified-scheduler \
+  --limit-ledger-size
+
