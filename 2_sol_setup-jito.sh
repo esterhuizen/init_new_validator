@@ -6,9 +6,9 @@ read net
 
 solana config set -u$net
 
-solana-keygen new -o authorized-withdrawer-keypair.json --no-bip39-passphrase
-solana-keygen new -o validator-keypair.json --no-bip39-passphrase
-solana-keygen new -o vote-account-keypair.json --no-bip39-passphrase
+solana-keygen new -o authorized-withdrawer-keypair.json --no-bip39-passphrase | tee -a seed_backups
+solana-keygen new -o validator-keypair.json --no-bip39-passphrase | tee -a seed_backups
+solana-keygen new -o vote-account-keypair.json --no-bip39-passphrase | tee -a seed_backups
 
 solana config set --keypair /home/sol/validator_run_env/validator-keypair.json
 
