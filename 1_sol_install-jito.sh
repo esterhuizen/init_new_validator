@@ -2,7 +2,8 @@
 
 # Install Solana
 
-# look here https://github.com/jito-foundation/jito-solana/releases
+echo "look here https://github.com/jito-foundation/jito-solana/releases"
+echo
 
 printf "What version of jito?: "
 read TAG
