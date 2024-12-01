@@ -1,7 +1,3 @@
-#!/bin/bash
-
-# Install Solana
-
 curl https://sh.rustup.rs -sSf | sh
 source $HOME/.cargo/env
 rustup component add rustfmt
