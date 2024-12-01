@@ -19,7 +19,6 @@ apt update && apt upgrade -y
 
 read var
 
-// install packages
 apt-get install -y \
     build-essential \
     pkg-config \
