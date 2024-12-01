@@ -3,6 +3,7 @@
 
 # Explicitly declare text files to be normalized to LF on checkout.
 *.c text eol=lf
+*.sh text eol=lf
 *.h text eol=lf
 
 # Declare files that should always have CRLF line endings on checkout.
