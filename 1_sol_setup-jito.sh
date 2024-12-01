@@ -23,11 +23,17 @@ read top
 echo $top >> ~/.profile
 . ~/.profile
 
-
-
-
-
 mkdir ~/validator_run_env/ 
+
+bdir=/home/sol/validator_run_env/bin
+ldir=/home/sol/validator_run_env/log
+mkdir $bdir $ldir
+
+mv start-mainnet-jito-NY.sh-2.0.15 $bdir
+mv stop-validator.sh $bdir
+
+chmod 700 $bdir/*
+
 cd ~/validator_run_env/
 
 printf "Is this Testnet (t) or Mainnet (m) host?: "
@@ -66,16 +72,6 @@ solana create-vote-account -u$net \
     ./validator-keypair.json \
     ./authorized-withdrawer-keypair.json
 
-    
-bdir=/home/sol/validator_run_env/bin
-ldir=/home/sol/validator_run_env/log
-
-mkdir $bdir $ldir
-
-mv start-mainnet-jito-NY.sh-2.0.15 $bdir
-mv stop-validator.sh $bdir
-
-chmod 700 $bdir/*
 
 ./check_response.sh
 
