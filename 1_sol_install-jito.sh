@@ -2,7 +2,12 @@
 
 # Install Solana
 
-echo "look here https://github.com/jito-foundation/jito-solana/releases"
+curl https://sh.rustup.rs -sSf | sh
+source $HOME/.cargo/env
+rustup component add rustfmt
+rustup update
+sudo apt-get update
+sudo apt-get install libssl-dev libudev-dev pkg-config zlib1g-dev llvm clang cmake make libprotobuf-dev protobuf-compiler
 echo
 
 printf "What version of jito?: "
