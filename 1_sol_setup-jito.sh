@@ -75,3 +75,4 @@ solana create-vote-account -u$net \
 
 ./check_response.sh
 
+echo "Check here for selecting: https://docs.jito.wtf/lowlatencytxnsend/#api"
