@@ -67,5 +67,6 @@ exec agave-validator \
   --wal-recovery-mode skip_any_corrupted_record \
  --no-skip-initial-accounts-db-clean \
  --block-verification-method unified-scheduler \
-  --limit-ledger-size
+ --experimental-poh-pinned-cpu-core 2 \
+ --limit-ledger-size
 
