@@ -122,7 +122,17 @@ echo "performance" | tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor |
 echo
 echo "Add this to [Manager] section: 
 DefaultLimitNOFILE=1000000"
+read input
+vi /etc/systemd/system.conf
+
+echo
+echo "Once your pubkey login works over ssh, check/set this in the sshd file:
+PasswordAuthentication no
+ChallengeResponseAuthentication no"
+sudo grep PasswordAuthentication /etc/ssh/sshd_config
+sudo grep ChallengeResponseAuthentication /etc/ssh/sshd_config
+echo "are they correct?"
 
 read input
+sudo vi /etc/ssh/sshd_config
 
-vi /etc/systemd/system.conf
