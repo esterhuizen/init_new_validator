@@ -94,3 +94,5 @@ solana-watchtower \\
   --minimum-validator-identity-balance 3 \\
   --url https://api.testnet.solana.com
 EOF
+
+echo "See setup guide for Telegram: https://docs.anza.xyz/operations/best-practices/monitoring/#setup-telegram-notifications"
