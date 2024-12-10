@@ -29,8 +29,9 @@ bdir=/home/sol/validator_run_env/bin
 ldir=/home/sol/validator_run_env/log
 mkdir $bdir $ldir
 
-mv start-mainnet-jito-NY.sh-2.0.15 $bdir
-mv stop-validator.sh $bdir
+cp start-mainnet-jito-NY.sh-2.0.15 $bdir
+cp stop-validator.sh $bdir
+cp check_response.sh $bdir
 
 chmod 700 $bdir/*
 
@@ -73,6 +74,23 @@ solana create-vote-account -u$net \
     ./authorized-withdrawer-keypair.json
 
 
-./check_response.sh
+$bdir/check_response.sh
 
 echo "Check here for selecting: https://docs.jito.wtf/lowlatencytxnsend/#api"
+echo "Go edit the startup script"
+read input
+
+echo "creating watchtower script"
+cat >watchtower.sh <<EOF
+#!/bin/bash
+PATH=/home/solana/.local/share/solana/install/active_release/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin
+
+exec &gt;>watchtower.log \\
+  env PAGERDUTY_INTEGRATION_KEY=<PAGERDUTY_KEY> \\
+solana-watchtower \\
+  --validator-identity <IDENTITY_PUBKEY> \\
+  --monitor-active-stake \\
+  --interval 20 \\
+  --minimum-validator-identity-balance 3 \\
+  --url https://api.testnet.solana.com
+EOF
