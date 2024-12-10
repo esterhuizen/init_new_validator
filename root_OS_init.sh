@@ -132,7 +132,7 @@ ChallengeResponseAuthentication no"
 sudo grep PasswordAuthentication /etc/ssh/sshd_config
 sudo grep ChallengeResponseAuthentication /etc/ssh/sshd_config
 echo "are they correct?"
-
 read input
-sudo vi /etc/ssh/sshd_config
+vi /etc/ssh/sshd_config
 
+apt install fail2ban
