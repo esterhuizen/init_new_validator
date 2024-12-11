@@ -8,8 +8,11 @@ echo
 
 printf "What version of jito?: "
 read TAG
-export $TAG
-export TAG=v2.0.18-jito
+echo
+echo $TAG
+echo "Is it correct?"
+read input
+
 git clone https://github.com/jito-foundation/jito-solana.git --recurse-submodules
 cd jito-solana
 git checkout tags/$TAG
