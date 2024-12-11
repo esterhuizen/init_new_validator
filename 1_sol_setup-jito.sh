@@ -24,6 +24,7 @@ printf "what should be appended to .profile?: "
 read top
 
 echo $top >> ~/.profile
+vi ~/.profile
 . ~/.profile
 
 mkdir ~/validator_run_env/ 
