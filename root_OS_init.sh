@@ -136,3 +136,6 @@ read input
 vi /etc/ssh/sshd_config
 
 apt install fail2ban
+sudo systemctl start fail2ban
+sudo systemctl enable fail2ban
+sudo systemctl status fail2ban
