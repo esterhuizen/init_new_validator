@@ -92,7 +92,7 @@ kernel.hung_task_timeout_secs=30
 kernel.pid_max=49152
 
 # Virtual Memory Tuning
-vm.swappiness=30
+vm.swappiness=0
 vm.max_map_count=2000000
 vm.stat_interval=10
 vm.dirty_ratio=40
@@ -143,11 +143,11 @@ systemctl status fail2ban
 echo 
 echo "Set swappiness to 0. Current value is:"
 cat /proc/sys/vm/swappiness
-sudo sysctl vm.swappiness=0
-echo 
-echo "New value is: "
-cat /proc/sys/vm/swappiness
-echo "edit this line: vm.swappiness=0"
-read input
+# sudo sysctl vm.swappiness=0
+# echo 
+# echo "New value is: "
+# cat /proc/sys/vm/swappiness
+# echo "edit this line: vm.swappiness=0"
+# read input
 
-vi /etc/sysctl.conf
+# vi /etc/sysctl.conf
