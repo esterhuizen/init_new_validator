@@ -136,6 +136,18 @@ read input
 vi /etc/ssh/sshd_config
 
 apt install fail2ban
-sudo systemctl start fail2ban
-sudo systemctl enable fail2ban
-sudo systemctl status fail2ban
+systemctl start fail2ban
+systemctl enable fail2ban
+systemctl status fail2ban
+
+echo 
+echo "Set swappiness to 0. Current value is:"
+cat /proc/sys/vm/swappiness
+sudo sysctl vm.swappiness=0
+echo 
+echo "New value is: "
+cat /proc/sys/vm/swappiness
+echo "edit this line: vm.swappiness=0"
+read input
+
+vi /etc/sysctl.conf
