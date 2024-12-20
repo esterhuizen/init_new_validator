@@ -32,7 +32,7 @@ addgroup sol
 usermod -aG  sol sol
 
 mkdir -p /mnt/ledger /mnt/accounts
-chown -R sol:sol /mnt/ledger /mnt/accounts
+chown -R sol:sol /mnt/ledger/ /mnt/accounts/
 
 read var
 
