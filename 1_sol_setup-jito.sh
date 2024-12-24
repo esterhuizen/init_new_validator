@@ -6,7 +6,9 @@ sudo apt-get update
 sudo apt-get install libssl-dev libudev-dev pkg-config zlib1g-dev llvm clang cmake make libprotobuf-dev protobuf-compiler
 echo
 
+git tag
 printf "What version of jito?: "
+read input
 read TAG
 echo
 echo $TAG
