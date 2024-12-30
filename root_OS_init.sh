@@ -8,6 +8,8 @@ read user
 ufw allow 22/tcp
 ufw allow 8000:8020/tcp
 ufw allow 8000:8020/udp
+ufw allow 11228/udp
+ufw allow 11229/udp
 ufw allow from 127.0.0.1 to 127.0.0.1 port 8900
 ufw allow from 127.0.0.1 to 127.0.0.1 port 8000
 ufw allow from 127.0.0.1 to 127.0.0.1 port 8899
