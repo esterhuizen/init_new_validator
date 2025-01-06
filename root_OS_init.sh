@@ -1,8 +1,7 @@
+#!/bin/bash
+
 # As root
-
-echo "Are you root? Press enter if YES"
-
-read user
+read -p "Are you root? Press enter if YES" input
 
 # FW Firewall confir
 ufw allow 22/tcp
@@ -15,11 +14,11 @@ ufw allow from 127.0.0.1 to 127.0.0.1 port 8000
 ufw allow from 127.0.0.1 to 127.0.0.1 port 8899
 ufw enable
 
-read var
+read -p "Enter to continue" input
 
 apt update && apt upgrade -y
 
-read var
+read -p "Enter to continue" input
 
 apt-get install -y \
     build-essential \
@@ -27,49 +26,45 @@ apt-get install -y \
     libudev-dev llvm libclang-dev \
     protobuf-compiler libssl-dev
 
-read var
+read -p "Enter to continue" input
 
 adduser --ingroup sudo sol
 addgroup sol
 usermod -aG  sol sol
 
-mkdir -p /mnt/ledger /mnt/accounts
-chown -R sol:sol /mnt/ledger/ /mnt/accounts/
+mkdir -p /mnt/ledger /mnt/accounts /mnt/snapshots
+chown -R sol:sol /mnt/ledger/ /mnt/accounts/ /mnt/snapshots
 
-read var
+while true; do
+    lsblk -f
+    # Prompt the user for input
+    read -p "Enter disk name to format (or 'x' to exit): " disk
 
-lsblk -f
+    # Check if the input is 'x'
+    if [ "$disk" == "x" ]; then
+        echo "No more disks, continuing..."
+        break
+    fi
 
-echo "First disk to format?: "
-read disk1
-
-mkfs -t ext4 /dev/$disk1
-
-echo "Second disk to format?: "
-read disk2
-
-mkfs -t ext4 /dev/$disk2
-
-UUID1=$(blkid -s UUID -o value /dev/$disk1) && echo $UUID1
-UUID2=$(blkid -s UUID -o value /dev/$disk2) && echo $UUID2
-
-cat >> /etc/fstab <<- EOM
-UUID=$UUID1  /mnt/ledger  ext4  defaults  0  2
-UUID=$UUID2  /mnt/accounts  ext4  defaults  0  2
+    mkfs -t ext4 /dev/$disk
+    UUID1=$(blkid -s UUID -o value /dev/$disk) && echo $UUID1
+    read -p "Mount point to use for this disk?: " mountp
+    cat >> /etc/fstab <<- EOM
+UUID=$UUID1  $mountp  ext4  defaults  0  2
 EOM
+    # sleep 1
+done
+
 
 tail /etc/fstab
 
-read input
+read -p "Enter to continue" input
 
 mount -a
 
-#mount /dev/nvme0n1 /mnt/ledger
-#mount /dev/nvme1n1 /mnt/accounts
-
 df -h /mnt/*
 
-read input
+read -p "Enter to continue" input
 
 # Set sysctl performance variables
 cat >> /etc/sysctl.conf <<- EOM
