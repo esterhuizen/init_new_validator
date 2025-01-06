@@ -32,11 +32,12 @@ adduser --ingroup sudo sol
 addgroup sol
 usermod -aG  sol sol
 
-mkdir -p /mnt/ledger /mnt/accounts /mnt/snapshots /mnt/accounts_hash
-chown -R sol:sol /mnt/ledger/ /mnt/accounts/ /mnt/snapshots /mnt/accounts_hash
+mkdir -p /mnt/ledger /mnt/accounts /mnt/snapshots /mnt/accounts_hash /mnt/accounts_index
+chown -R sol:sol /mnt/ledger/ /mnt/accounts/ /mnt/snapshots /mnt/accounts_hash /mnt/accounts_index
 
 cat >> /etc/fstab <<- EOM
-tmpfs   /mnt/accounts_hash      tmpfs   defaults,size=90G   0   0
+tmpfs   /mnt/accounts_hash      tmpfs   defaults,size=128G   0   0
+tmpfs   /mnt/accounts_index      tmpfs   defaults,size=128G   0   0
 EOM
 
 while true; do
