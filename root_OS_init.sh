@@ -153,3 +153,9 @@ cat /proc/sys/vm/swappiness
 # read input
 
 # vi /etc/sysctl.conf
+
+echo -p "Add this: GRUB_CMDLINE_LINUX_DEFAULT=\"quiet nvme_core.default_ps_max_latency_us=0 pcie_aspm=off amd_pstate=passive nohz_full=2,26 isolcpus=domain,managed_irq,2,26 irqaffinity=0-1,3-25,27-47\"" input
+
+vi /etc/default/grub
+update-grub
+
