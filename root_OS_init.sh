@@ -123,7 +123,7 @@ echo "performance" | tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor |
 
 echo
 echo "Add this to [Manager] section: 
-DefaultLimitNOFILE=1000000"
+DefaultLimitNOFILE=2000000"
 read input
 vi /etc/systemd/system.conf
 
