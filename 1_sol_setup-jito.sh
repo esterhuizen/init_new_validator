@@ -6,6 +6,8 @@ sudo apt-get update
 sudo apt-get install libssl-dev libudev-dev pkg-config zlib1g-dev llvm clang cmake make libprotobuf-dev protobuf-compiler
 echo
 
+git clone https://github.com/jito-foundation/jito-solana.git --recurse-submodules
+cd jito-solana
 git tag
 printf "What version of jito?: "
 read input
@@ -14,9 +16,6 @@ echo
 echo $TAG
 echo "Is it correct?"
 read input
-
-git clone https://github.com/jito-foundation/jito-solana.git --recurse-submodules
-cd jito-solana
 git checkout tags/$TAG
 git submodule update --init --recursive
 CI_COMMIT=$(git rev-parse HEAD) scripts/cargo-install-all.sh --validator-only ~/.local/share/solana/install/releases/"$TAG"
