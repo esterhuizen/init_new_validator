@@ -24,7 +24,7 @@ apt-get install -y \
     build-essential \
     pkg-config \
     libudev-dev llvm libclang-dev \
-    protobuf-compiler libssl-dev
+    protobuf-compiler libssl-dev cpufrequtils
 
 read -p "Enter to continue" input
 
@@ -71,6 +71,9 @@ df -h /mnt/*
 
 read -p "Enter to continue" input
 
+echo 'GOVERNOR="performance"' | tee /etc/default/cpufrequtils
+systemctl restart cpufrequtils
+ 
 # Set sysctl performance variables
 cat >> /etc/sysctl.conf <<- EOM
 # TCP Buffer Sizes (10k min, 87.38k default, 12M max)
@@ -113,13 +116,6 @@ EOM
 
 # Reload sysctl settings
 sysctl -p
-
-# Set CPU governor to performance mode
-echo 'GOVERNOR="performance"' | tee /etc/default/cpufrequtils
-echo "performance" | tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor
-
-# Set performance governor for bare metal (ignore errors)
-echo "performance" | tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor || true
 
 echo
 echo "Add this to [Manager] section: 
