@@ -10,7 +10,6 @@ git clone https://github.com/jito-foundation/jito-solana.git --recurse-submodule
 cd jito-solana
 git tag
 printf "What version of jito?: "
-read input
 read TAG
 echo
 echo $TAG
