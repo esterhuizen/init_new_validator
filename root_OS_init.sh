@@ -36,8 +36,8 @@ mkdir -p /mnt/ledger /mnt/accounts /mnt/snapshots /mnt/accounts_hash /mnt/accoun
 chown -R sol:sol /mnt/ledger/ /mnt/accounts/ /mnt/snapshots /mnt/accounts_hash /mnt/accounts_index
 
 cat >> /etc/fstab <<- EOM
-tmpfs   /mnt/accounts_hash      tmpfs   defaults,size=256G   0   0
-tmpfs   /mnt/accounts_index      tmpfs   defaults,size=256G   0   0
+tmpfs   /mnt/accounts_hash      tmpfs   defaults,noatime,size=256G   0   0
+tmpfs   /mnt/accounts_index      tmpfs   defaults,noatime,size=256G   0   0
 EOM
 
 while true; do
@@ -55,7 +55,7 @@ while true; do
     UUID1=$(blkid -s UUID -o value /dev/$disk) && echo $UUID1
     read -p "Mount point to use for this disk?: " mountp
     cat >> /etc/fstab <<- EOM
-UUID=$UUID1  $mountp  ext4  defaults  0  2
+UUID=$UUID1  $mountp  ext4  defaults,noatime  0  2
 EOM
     # sleep 1
 done
