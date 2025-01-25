@@ -155,3 +155,10 @@ echo -p "Add this: GRUB_CMDLINE_LINUX_DEFAULT=\"quiet nvme_core.default_ps_max_l
 vi /etc/default/grub
 update-grub
 
+echo "Checking NVMe link speeds: \n"
+
+for pci_addr in $(lspci | grep -i nvme | awk '{print $1}'); do
+        echo $pci_addr=====================
+    lspci -s $pci_addr -vv | grep -i speed
+done
+
