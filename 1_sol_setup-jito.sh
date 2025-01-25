@@ -46,9 +46,7 @@ read net
 
 solana config set -u$net
 
-solana-keygen new -o authorized-withdrawer-keypair.json --no-bip39-passphrase | tee -a seed_backups
-solana-keygen new -o validator-keypair.json --no-bip39-passphrase | tee -a seed_backups
-solana-keygen new -o vote-account-keypair.json --no-bip39-passphrase | tee -a seed_backups
+solana-keygen new -o unstaked-identity.json --no-bip39-passphrase | tee -a seed_backups
 
 solana config set --keypair /home/sol/validator_run_env/validator-keypair.json
 
@@ -67,15 +65,12 @@ EOM
 
 
 
-printf "Have you deposited SOL into id wallet ( $vid )?: "
-read input
-
-solana create-vote-account -u$net \
-    --fee-payer ./validator-keypair.json \
-    --commission 0 \
-    ./vote-account-keypair.json \
-    ./validator-keypair.json \
-    ./authorized-withdrawer-keypair.json
+#solana create-vote-account -u$net \
+#    --fee-payer ./validator-keypair.json \
+#    --commission 0 \
+#    ./vote-account-keypair.json \
+#    ./validator-keypair.json \
+#    ./authorized-withdrawer-keypair.json
 
 
 $bdir/check_response.sh
@@ -85,18 +80,19 @@ echo "Go edit the startup script"
 read input
 
 echo "creating watchtower script"
-cat >watchtower.sh <<EOF
-#!/bin/bash
-PATH=/home/solana/.local/share/solana/install/active_release/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin
+cat >/home/sol/validator_run_env/bin/monitoring.sh <<EOF
+export TELEGRAM_BOT_TOKEN=7825602581:AAHCQc_rZNrxe1fztMnfqM2D7Q2eqx5m65s
+export TELEGRAM_CHAT_ID=-4692052826
 
-exec &gt;>watchtower.log \\
-  env PAGERDUTY_INTEGRATION_KEY=<PAGERDUTY_KEY> \\
-solana-watchtower \\
-  --validator-identity <IDENTITY_PUBKEY> \\
-  --monitor-active-stake \\
-  --interval 20 \\
-  --minimum-validator-identity-balance 3 \\
-  --url https://api.testnet.solana.com
+agave-watchtower \
+  --validator-identity str4t8cca1qmHtdNkZVYUkkpyfAGbBQKE8MRQBFQLCx \
+  --monitor-active-stake \
+  --interval 20 \
+  --minimum-validator-identity-balance 1 \
+  --ignore-http-bad-gateway \
+  --unhealthy-threshold 3 \
+   --name-suffix "MAIN::str4t: "
+
 EOF
 
-echo "See setup guide for Telegram: https://docs.anza.xyz/operations/best-practices/monitoring/#setup-telegram-notifications"
+chmod 700 /home/sol/validator_run_env/bin/monitoring.sh
