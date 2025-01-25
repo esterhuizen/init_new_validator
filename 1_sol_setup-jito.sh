@@ -81,7 +81,7 @@ read input
 
 echo "creating watchtower script"
 cat >/home/sol/validator_run_env/bin/monitoring.sh <<EOF
-export TELEGRAM_BOT_TOKEN=7825602581:AAHCQc_rZNrxe1fztMnfqM2D7Q2eqx5m65s
+export TELEGRAM_BOT_TOKEN=<insert token>
 export TELEGRAM_CHAT_ID=-4692052826
 
 agave-watchtower \
